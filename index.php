@@ -71,16 +71,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
       exit;
     }
 
+    // echo json_encode(['ok' => false, 'error' => $data]);
+
     $userId = trim((string)($data['user_id'] ?? ''));
     $choice = trim((string)($data['choice'] ?? ''));
 
-    if ($userId === '' || !in_array($choice, ['sheela', 'teshuva'], true)) {
+    if ($userId === '' || $choice === "") {
       http_response_code(400);
       echo json_encode(['ok' => false, 'error' => 'bad_params']);
       exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO votes (user_id, choice) VALUES (?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO seker (userID, isReligion) VALUES (?, ?)");
     $stmt->execute([$userId, $choice]);
 
     echo json_encode(['ok' => true]);
