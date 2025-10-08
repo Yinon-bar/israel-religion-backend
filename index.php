@@ -80,10 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
       exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO seker (userID, isReligion) VALUES (?, ?)");
+    $stmt = $pdo->prepare("INSERT IGNORE INTO seker (userID, isReligion) VALUES (?, ?)");
     $stmt->execute([$userIdHash, $choice]);
-
-    echo json_encode(['ok' => true]);
+    $inserted = ($stmt->rowCount() === 1);
+    if (!$inserted) {
+      http_response_code(409); // אופציונלי – 'Conflict'
+      echo json_encode(['ok' => false, 'error' => 'already_voted']);
+      exit;
+    }
+    echo json_encode(['ok' => true, 'status' => 'inserted']);
   } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'vote_fail']);
