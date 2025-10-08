@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/config.php';
+require __DIR__ . '/functions.php';
 
 // ===== כותרות JSON + CORS (פשוטות) =====
 header('Content-Type: application/json; charset=utf-8');
@@ -67,10 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
       exit;
     }
 
-    // echo json_encode(['ok' => false, 'error' => $data]);
-
     $userId = trim((string)($data['user_id'] ?? ''));
     $choice = trim((string)($data['choice'] ?? ''));
+    $userIdHash = hmac_id($userId);
+
+    // echo json_encode(['message' => $userIdHash]);
 
     if ($userId === '' || $choice === "") {
       http_response_code(400);
@@ -79,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
     }
 
     $stmt = $pdo->prepare("INSERT INTO seker (userID, isReligion) VALUES (?, ?)");
-    $stmt->execute([$userId, $choice]);
+    $stmt->execute([$userIdHash, $choice]);
 
     echo json_encode(['ok' => true]);
   } catch (Throwable $e) {

@@ -3,3 +3,5 @@ RewriteBase /ask-me-backend/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
+
+SetEnv PEPPER_SECRET "XwZ1l2Z7h5-8KpKQxH9cA1wVf0yN7Jr3TqUuYpZoR2F6M8Z1L4N0D6C2S8B5Q9"
