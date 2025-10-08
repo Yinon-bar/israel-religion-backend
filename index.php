@@ -25,7 +25,7 @@ try {
   );
 } catch (Throwable $e) {
   http_response_code(500);
-  echo json_encode(['ok' => false, 'error' => 'db_fail']);
+  echo json_encode(['ok' => false, 'error' => 'בעיה בהתחברות למסד הנתונים']);
   exit;
 }
 
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $r === 'results') {
     ]]);
   } catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['ok' => false, 'error' => 'results_fail']);
+    echo json_encode(['ok' => false, 'error' => 'שליפת הנתונים נכשלה']);
   }
   exit;
 }
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
     $data = json_decode($raw, true);
     if (!is_array($data)) {
       http_response_code(400);
-      echo json_encode(['ok' => false, 'error' => 'bad_json']);
+      echo json_encode(['ok' => false, 'error' => 'מבנה גייסון לא תקין']);
       exit;
     }
 
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
 
     if ($userId === '' || $choice === "") {
       http_response_code(400);
-      echo json_encode(['ok' => false, 'error' => 'bad_params']);
+      echo json_encode(['ok' => false, 'error' => 'פרמטרים לא תקינים']);
       exit;
     }
 
@@ -85,17 +85,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $r === 'vote') {
     $inserted = ($stmt->rowCount() === 1);
     if (!$inserted) {
       http_response_code(409); // אופציונלי – 'Conflict'
-      echo json_encode(['ok' => false, 'error' => 'already_voted']);
+      echo json_encode(['ok' => false, 'error' => 'משתמש בעל ת.ז זו כבר הצביע']);
       exit;
     }
-    echo json_encode(['ok' => true, 'status' => 'inserted']);
+    echo json_encode(['ok' => true, 'status' => 'הנתונים נקלטו בהצלחה, תודה על השתתפותך']);
   } catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['ok' => false, 'error' => 'vote_fail']);
+    echo json_encode(['ok' => false, 'error' => 'הצבעה נכשלה']);
   }
   exit;
 }
 
 // אם לא נתיב מוכר
 http_response_code(404);
-echo json_encode(['ok' => false, 'error' => 'not_found']);
+echo json_encode(['ok' => false, 'error' => 'נתיב לא נמצא']);
