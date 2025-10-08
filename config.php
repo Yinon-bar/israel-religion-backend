@@ -1,9 +1,9 @@
 <?php
-// עדכן לפי הסביבה שלך
-$DB_HOST = 'srv1048.hstgr.io';
-$DB_NAME = 'u528206822_israelreligion';
-$DB_USER = 'u528206822_inonbar';
-$DB_PASS = 'INONbar@0505713460';
+
+$dbHost = 'srv1048.hstgr.io';
+$dbName = 'u528206822_israelreligion';
+$dbUser = 'u528206822_inonbar';
+$dbPass = 'INONbar@0505713460';
 
 // מקורות מותרים ל-CORS (פרונט: לוקאלי + Netlify)
 // $ALLOWED_ORIGINS = [
