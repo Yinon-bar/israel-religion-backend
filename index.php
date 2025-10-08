@@ -1,9 +1,5 @@
 <?php
-// ===== הגדרות DB (עדכן לפי XAMPP שלך) =====
-$dbHost = 'srv1048.hstgr.io';
-$dbName = 'u528206822_israelreligion';
-$dbUser = 'u528206822_inonbar';
-$dbPass = 'INONbar@0505713460'; // ב-XAMPP לרוב ריק למשתמש root
+require __DIR__ . '/config.php';
 
 // ===== כותרות JSON + CORS (פשוטות) =====
 header('Content-Type: application/json; charset=utf-8');
